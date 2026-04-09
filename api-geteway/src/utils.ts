@@ -2,16 +2,11 @@ import axios from "axios";
 import { Express, Request, Response } from "express";
 import config from "./config.json";
 import mildlewares from "./midlwares";
-import * as serviceUrls from "./config";
+import { DEFAULT_SERVICE_URL_MAP } from "./config";
 
-const SERVICE_URL_MAP: Record<string, string> = {
-  AUTH_SERVICE_URL: serviceUrls.AUTH_SERVICE_URL,
-  PRODUCTS_SERVICE_URL: serviceUrls.PRODUCTS_SERVICE_URL,
-  INVENTORY_SERVICE_URL: serviceUrls.INVENTORY_SERVICE_URL,
-  USER_SERVICE_URL: serviceUrls.USER_SERVICE_URL,
-  EMAIL_SERVICE_URL: serviceUrls.EMAIL_SERVICE_URL,
-  CART_SERVICE_URL: serviceUrls.CART_SERVICE_URL,
-  ORDER_SERVICE_URL: serviceUrls.ORDER_SERVICE_URL,
+const getServiceUrl = (urlEnv: string) => {
+  const envValue = process.env[urlEnv]?.trim();
+  return envValue || DEFAULT_SERVICE_URL_MAP[urlEnv] || "";
 };
 
 export const createHandler = (
@@ -65,7 +60,7 @@ const getMiddlewares = (names: string[]) => {
 
 export const configureRoutes = (app: Express) => {
   Object.entries(config.services).forEach(([_name, service]) => {
-    const hostname = SERVICE_URL_MAP[service.urlEnv] || "";
+    const hostname = getServiceUrl(service.urlEnv);
     service.routes.forEach((route) => {
       route.methods.forEach((method) => {
         const endPoint = `/api${route.path}`;
