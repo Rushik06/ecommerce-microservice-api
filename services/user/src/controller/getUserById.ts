@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 
 const getUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id  = req.params.id as string;
     const field = req.query.field as string;
 
     let user: User | null;
@@ -12,13 +12,13 @@ const getUserById = async (req: Request, res: Response, next: NextFunction) => {
     if (field === "authUserId") {
       user = await prisma.user.findUnique({
         where: {
-          id: id,
+          authUserId: id,
         },
       });
     } else {
       user = await prisma.user.findUnique({
         where: {
-          authUserId: id,
+          id: id,
         },
       });
     }

@@ -22,8 +22,8 @@ const createInventory = async (
           create: {
             actionType: "IN",
             quantityChange: parseBody.data.quantity,
-            lastQuantity: parseBody.data.quantity,
-            newQuantity: 0,
+            lastQuantity: 0,
+            newQuantity: parseBody.data.quantity,
           },
         },
       },

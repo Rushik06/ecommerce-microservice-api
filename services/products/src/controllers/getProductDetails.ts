@@ -2,9 +2,10 @@ import { INVENTORY_SERVICE_URL } from "@/config";
 import prisma from "@/prisma";
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
+import { GetProductId } from "../types/GetProductDetails";
 
 export const getProductDetails = async (
-  req: Request,
+  req: Request<GetProductId>,
   res: Response,
   next: NextFunction
 ) => {
@@ -58,7 +59,7 @@ export const getProductDetails = async (
       ...product,
       inventoryId: product.inventoryId,
       stock: inventory.quantity || 0,
-      stockStatus: inventory.quantity > 0 ? "Out of Stock" : "In Stock",
+      stockStatus: inventory.quantity > 0 ? "In Stock" : "Out of Stock",
     });
   } catch (error) {
     next(error);

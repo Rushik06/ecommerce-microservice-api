@@ -9,9 +9,13 @@ const getOrderById = async (
   try {
     const order = await prisma.order.findUnique({
       where: {
-        id: req.params.id,
+        //type issue solved
+        id: req.params.id as string,
       },
+      //added orderItems to include to get the order items along with order details
+      include:{orderItems:true},
     });
+
     if (!order) {
       res.status(404).json({ error: "Order not found" });
       return;

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { NextFunction, Request, Response } from "express";
-import { AUTH_SERVICE_URL } from "./config";
+
+const getAuthServiceUrl = () =>
+  process.env.AUTH_SERVICE_URL?.trim() || "http://localhost:4003";
 
 const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -10,12 +12,14 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     const { data } = await axios.post(
-      `${AUTH_SERVICE_URL}/auth/verify-token`,
+      `${getAuthServiceUrl()}/auth/verify-token`,
       {
-        accessToken: token,
+        token: token,
+      },
+      {
         headers: {
           ip: req.ip,
-          "user-agent": req.headers["user-agent"],
+          "user-agent": req.headers["user-agent"] || "",
         },
       }
     );
