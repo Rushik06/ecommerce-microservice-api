@@ -75,7 +75,7 @@ const userRegistion = async (
       data: {
         userId: user.id,
         code: verificationCode,
-        expiredAt: new Date(Date.now() + 1000 * 24),
+        expiredAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
       },
     });
 

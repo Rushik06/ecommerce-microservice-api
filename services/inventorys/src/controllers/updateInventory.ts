@@ -5,15 +5,16 @@ import e, { NextFunction, Request, Response } from "express";
 const updateInventory = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     //check in inventory exist
     const { id } = req.params;
+    const result = Array.isArray(id) ? id[0] : id;
 
     const inventory = await prisma.inventory.findUnique({
       where: {
-        id: id,
+        id: result,
       },
     });
 
@@ -32,7 +33,7 @@ const updateInventory = async (
     //Last History
     const lastHistory = await prisma.history.findFirst({
       where: {
-        inventoryId: id,
+        inventoryId: result,
       },
       orderBy: {
         createdAt: "desc",
@@ -42,9 +43,9 @@ const updateInventory = async (
     let newQuantity = inventory.quantity;
 
     if (parseBody.data.actionType === "IN") {
-      newQuantity -= parseBody.data.quantity;
-    } else if (parseBody.data.actionType === "OUT") {
       newQuantity += parseBody.data.quantity;
+    } else if (parseBody.data.actionType === "OUT") {
+      newQuantity -= parseBody.data.quantity;
     } else {
       res.status(400).json({ error: "Invalid action type" });
       return;
@@ -52,7 +53,7 @@ const updateInventory = async (
 
     const updatedInventory = await prisma.inventory.update({
       where: {
-        id: id,
+        id: result,
       },
       data: {
         quantity: newQuantity,

@@ -5,7 +5,7 @@ import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import { addToCart, clearCart, getMyCart } from "./controllers";
 import "@/events/onKeyExpier";
-
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
@@ -22,6 +22,7 @@ const rateLimiter = rateLimit({
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 
 //Health
 app.get("/health", (_req, res) => {

@@ -4,14 +4,16 @@ import prisma from "@/prisma";
 const getInventoryDetails = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const { id } = req.params;
 
+    const result = Array.isArray(id) ? id[0] : id;
+
     const inventory = await prisma.inventory.findUnique({
       where: {
-        id,
+        id: result,
       },
       include: {
         histories: {

@@ -39,7 +39,7 @@ const verifyEmail = async (req: Request, res: Response, next: NextFunction) => {
       return;
     }
 
-    if (verificationCode.expiredAt > new Date()) {
+    if (new Date() > verificationCode.expiredAt) {
       res.status(400).json({ message: " Verification Code Expired" });
       return;
     }

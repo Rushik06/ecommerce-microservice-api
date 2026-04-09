@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import prisma from "@/prisma";
 import { emailSchema } from "../schemas";
 import { default_sender, transporter } from "@/config";
-import exp from "constants";
 
 const sentEmail = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -18,7 +17,7 @@ const sentEmail = async (req: Request, res: Response, next: NextFunction) => {
     const { recipient, subject, body, sender, source } = parseBody.data;
 
     console.log("rejected");
-    const from = sender;
+    const from = sender ?? default_sender;
 
     const emailOptions = {
       from,
@@ -38,8 +37,8 @@ const sentEmail = async (req: Request, res: Response, next: NextFunction) => {
 
     await prisma.email.create({
       data: {
-        sender: recipient,
-        recipient: from,
+        sender: from,
+        recipient,
         subject,
         body,
         source,
