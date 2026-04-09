@@ -5,6 +5,7 @@ import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import { addToCart, clearCart, getMyCart } from "./controllers";
 import "@/events/onKeyExpier";
+//fix the type issue
 import cookieParser from "cookie-parser";
 dotenv.config();
 

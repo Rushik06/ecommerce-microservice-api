@@ -12,7 +12,7 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"moduleResolution": "node10",
-		"ignoreDeprecations": "5.0",
+		"ignoreDeprecations": "6.0",
 		"resolveJsonModule": true,
 		"allowSyntheticDefaultImports": true,
 		"typeRoots": ["./src/types", "./node_modules/@types"],
