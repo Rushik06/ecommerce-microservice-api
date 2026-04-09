@@ -1,4 +1,4 @@
-import becrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
@@ -61,9 +61,9 @@ const userLogin = async (
       return;
     }
 
-    const isPasswordValid = await becrypt.compare(
+    const isPasswordValid = await bcrypt.compare(
+      parseBody.data.password,
       user.password,
-      parseBody.data.password
     );
 
     if (!isPasswordValid) {

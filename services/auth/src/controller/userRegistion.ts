@@ -4,13 +4,10 @@ import { userCreateSchema } from "../schemas";
 import becrypt from "bcryptjs";
 import axios from "axios";
 import { EMAIL_SERVICE_URL, USER_SERVICE_URL } from "@/config";
+import crypto from 'crypto';
 
 const generateVerificationCode = () => {
-  const timeStamp = Date.now().toString();
-  const randomNumber = Math.floor(10 + Math.random() * 90);
-
-  const code = `${timeStamp}${randomNumber}`.slice(-5);
-
+  const code = crypto.randomInt(0, 100000).toString().padStart(5, '0');
   return code;
 };
 
