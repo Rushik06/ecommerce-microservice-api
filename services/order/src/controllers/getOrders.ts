@@ -5,7 +5,7 @@ import prisma from "@/prisma";
 const getOrders = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
-    //remove the where condition to get all orders instead of only completed orders
+    //remove the where condition '{status:"COMPLETED"}' to get all orders instead of only completed orders
     //before const orders = await prisma.order.findMany({where:{status:"COMPLETED"}})
 
     //now it will return all orders regardless of their status
