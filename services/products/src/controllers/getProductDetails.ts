@@ -2,9 +2,10 @@ import { INVENTORY_SERVICE_URL } from "@/config";
 import prisma from "@/prisma";
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
+import { GetProductId } from "../types/GetProductDetails";
 
 export const getProductDetails = async (
-  req: Request,
+  req: Request<GetProductId>,
   res: Response,
   next: NextFunction
 ) => {

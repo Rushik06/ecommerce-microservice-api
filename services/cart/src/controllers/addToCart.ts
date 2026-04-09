@@ -12,7 +12,8 @@ const addToCart = async (req: Request, res: Response, next: NextFunction) => {
       return;
     }
 
-    let cartSesstionId = (req.headers["x-cart-session-id"] as string) || null;
+    let cartSesstionId = (req.headers?.["x-cart-session-id"] as string) || null;
+    console.log("Headers:", req.headers);
 
     if (!cartSesstionId) {
       cartSesstionId = req.cookies["x-cart-session-id"] || null;
@@ -40,10 +41,10 @@ const addToCart = async (req: Request, res: Response, next: NextFunction) => {
     //Check the Inventory is available
 
     const { data } = await axios.get(
-      `${INVENTORY_SERVICE_URL}/inventorys/${parseBody.data?.inventoryId}`
+      `${INVENTORY_SERVICE_URL}/inventorys/${parseBody.data?.inventoryId}`,
     );
 
-    if (Number(data.quantity) <= parseBody.data?.quantity) {
+    if (Number(data.quantity) < parseBody.data?.quantity) {
       res.status(400).json({
         message: "Inventory is not available",
       });
@@ -56,7 +57,7 @@ const addToCart = async (req: Request, res: Response, next: NextFunction) => {
       JSON.stringify({
         quantity: parseBody.data?.quantity,
         inventoryId: parseBody.data?.inventoryId,
-      })
+      }),
     );
 
     await axios.put(
@@ -64,7 +65,7 @@ const addToCart = async (req: Request, res: Response, next: NextFunction) => {
       {
         quantity: parseBody.data?.quantity,
         actionType: "OUT",
-      }
+      },
     );
 
     res.status(200).json({
