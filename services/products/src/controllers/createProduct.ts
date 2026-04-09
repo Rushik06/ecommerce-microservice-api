@@ -57,7 +57,7 @@ const createProduct = async (
         id: product.id,
       },
       data: {
-        inventoryId: inventory.quantity,
+        inventoryId: inventory.id,
       },
     });
 
