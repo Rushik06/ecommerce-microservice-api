@@ -55,9 +55,7 @@ const checkOut = async (req: Request, res: Response, next: NextFunction) => {
       })
     );
 
-    /*Previously subtotal calculation is used to return item.price but it is wrong it should return no of i
-    items x price so, summing calculation changed to item.price to item.total ( which means item.price * item.quantity) */
-
+    //total calculation
     const subTotal = productDetails.reduce((acc, item) => acc + item.total, 0);
 
     const tax = 0;
