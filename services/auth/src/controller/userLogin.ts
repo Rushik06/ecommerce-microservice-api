@@ -1,11 +1,11 @@
-import becrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 import prisma from "@/prisma";
 
 import { userLoginSchema } from "../schemas";
-import { LoginAttemt } from "@prisma/client";
+import { LoginAttemt } from "@/generated/prisma/client";
 
 type LoginHistory = {
   ipAddress: string | undefined;
@@ -61,9 +61,9 @@ const userLogin = async (
       return;
     }
 
-    const isPasswordValid = await becrypt.compare(
+    const isPasswordValid = await bcrypt.compare(
+      parseBody.data.password,
       user.password,
-      parseBody.data.password
     );
 
     if (!isPasswordValid) {
@@ -104,8 +104,8 @@ const userLogin = async (
     const accessToken = jwt.sign(
       {
         id: user.id,
-        name: user.email,
-        email: user.name,
+        name: user.name,
+        email: user.email,
       },
 
       (process.env.JWT_SCRECT_KEY as string) || "secret",

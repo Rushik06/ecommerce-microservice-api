@@ -59,7 +59,7 @@ export const getProductDetails = async (
       ...product,
       inventoryId: product.inventoryId,
       stock: inventory.quantity || 0,
-      stockStatus: inventory.quantity > 0 ? "Out of Stock" : "In Stock",
+      stockStatus: inventory.quantity > 0 ? "In Stock" : "Out of Stock",
     });
   } catch (error) {
     next(error);

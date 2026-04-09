@@ -25,7 +25,7 @@ const userVerify = async (
 
     const user = await prisma.user.findUnique({
       where: {
-        id: decodedToken.email,
+        id: decodedToken.id,
       },
       select: {
         id: true,

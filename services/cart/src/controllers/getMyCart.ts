@@ -32,9 +32,9 @@ const getMyCart = async (req: Request, res: Response, next: NextFunction) => {
         quantity: number;
       };
       return {
-        inventoryId: key,
-        quantity,
-        productId: inventoryId,
+        productId: key,
+        inventoryId: inventoryId,
+        quantity
       };
     });
 
